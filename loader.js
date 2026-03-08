@@ -19,6 +19,9 @@ var configtimer;
 
 var systemTemp = 0;
 var systemCurrent = 0;
+
+var cutoffStatus = 0;
+var tempControlStatus = 0; 
 				
 function addStylesheet(filename, index) {
 	var fileref=document.createElement("link")
@@ -173,6 +176,36 @@ function refreshGraph(){
 		if (data.length > 6) {
 		    systemCurrent = data[6];
 		}
+		  
+		if (data.length > 7) {
+		    cutoffStatus = data[7];
+		}
+		
+		if (data.length > 8) {
+		    tempControlStatus = data[8];
+		}
+		  
+		if(cutoffStatus == 1)
+		{
+		    $("#cutoffIndicator").css("background-color","red");
+		    $("#cutoffText").text("CUT-OFF");
+		}
+		else
+		{
+		    $("#cutoffIndicator").css("background-color","green");
+		    $("#cutoffText").text("NORMAL");
+		}
+		
+		if(tempControlStatus == 1)
+		{
+		    $("#tempControlIndicator").text("ACTIVE");
+		    $("#tempControlIndicator").css("background-color","orange");
+		}
+		else
+		{
+		    $("#tempControlIndicator").text("OFF");
+		    $("#tempControlIndicator").css("background-color","grey");
+		}
 
         // tampilkan pada dashboard
         $("#systemTemp").html(systemTemp + " °C");
@@ -281,8 +314,16 @@ script.onload = function(){
 	<div id="chart1"></div> \
     <div id="systemmonitor" style="text-align:center;margin-top:20px;"> \
     <h3>System Monitoring</h3> \
-    Temperature : <span id="systemTemp">--</span> °C <br> \
-    Current : <span id="systemCurrent">--</span> A \
+    Temperature : <span id="systemTemp">--</span> <br>  \
+    Current : <span id="systemCurrent">--</span> <br> \
+	Cut-Off Status : \
+	<span id="cutoffIndicator" style="display:inline-block;width:18px;height:18px;border-radius:50%;background-color:green;margin-left:8px;"></span> \
+	<span id="cutoffText">NORMAL</span> \
+	<br><br> \
+	Temperature Control : \
+	<span id="tempControlIndicator" style="padding:6px 12px;border-radius:6px;background-color:grey;color:white;"> \
+	OFF \
+	</span> \
     </div> \
 	<div id="buttons"><a href="#config" data-transition="pop" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Configure</a> <a href="#modules" data-transition="pop" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Modules</a>  \
 	<a id="AboveAvgBalance" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Above Avg Balance</a>  <a id="CancelAvgBalance" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Cancel Avg Balance</a> <a id="ResetESP" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Reset Controller</a> <a id="github" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" href="https://github.com/chickey/diyBMS">GitHub</a></div></div> \
@@ -291,7 +332,6 @@ script.onload = function(){
 	<div data-role="header"><h1>Configuration</h1></div> \
 	<div role="main" data-role="ui-content"> \
 	<h1>Configuration</h1> \
-	\
 	<h2>emonCMS Integration</h2> \
 	<form id="form_emoncms" method="POST" action="'+rooturl+'setemoncms">\
 	<div class="ui-field-contain"> \
