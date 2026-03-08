@@ -71,6 +71,8 @@ function refreshConfig() {
 		$("#max_voltage").val( data.max_voltage );
 		$("#balance_voltage").val( data.balance_voltage );
 		$("#balance_dev").val( data.balance_dev );
+		$("#temp_setpoint").val(data.temp_setpoint);
+		$("#temp_hysteresis").val(data.temp_hysteresis);
 
 		}
 	});
@@ -387,6 +389,16 @@ script.onload = function(){
 	</select> \
 	</div> \
 	\
+	<h4>Temperature Control</h4> \
+	<div class="ui-field-contain"> \
+	<label for="temp_setpoint">Temperature Setpoint (°C)</label> \
+	<input id="temp_setpoint" name="temp_setpoint" type="number" min="0" max="80"/> \
+	</div> \
+	<div class="ui-field-contain"> \
+	<label for="temp_hysteresis">Temperature Hysteresis (°C)</label> \
+	<input id="temp_hysteresis" name="temp_hysteresis" type="number" min="0" max="20"/> \
+	</div> \
+	\
 	<div class="ui-field-contain"> \
     <label for="submit-1"></label> \
     <button type="submit" id="submit-1" class="ui-shadow ui-btn ui-corner-all">Save</button> \
@@ -405,6 +417,7 @@ script.onload = function(){
 	<p><a id="provButton" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Provision</a> <a id="syncTempCalib" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Sync Temp Calibration</a> <a href="#main" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-rel="back">Close</a></p> \
 	</div> \
 	</div>');
+
 
 	$( document ).on( "mobileinit", function() { 
 		$.mobile.maxTransitionWidth=800;		
