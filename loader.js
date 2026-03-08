@@ -164,13 +164,13 @@ function refreshGraph(){
       url: jsonurl,
       dataType: "json",
       success: function(data) {		
-        if (data.length > 5 && data[5].length > 0) {
-            systemTemp = data[5][0];
-        }
-
-        if (data.length > 6 && data[6].length > 0) {
-            systemCurrent = data[6][0];
-        }
+        if (data.length > 5) {
+		    systemTemp = data[5];
+		}
+		
+		if (data.length > 6) {
+		    systemCurrent = data[6];
+		}
 
         // tampilkan pada dashboard
         $("#systemTemp").html(systemTemp + " °C");
