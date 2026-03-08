@@ -16,6 +16,9 @@ var plot1;
 var timer;
 var moduletimer;
 var configtimer;
+
+var systemTemp = 0;
+var systemCurrent = 0;
 				
 function addStylesheet(filename, index) {
 	var fileref=document.createElement("link")
@@ -160,7 +163,19 @@ function refreshGraph(){
       async: true,
       url: jsonurl,
       dataType: "json",
-      success: function(data) {		 
+      success: function(data) {		
+        if (data.length > 5 && data[5].length > 0) {
+            systemTemp = data[5][0];
+        }
+
+        if (data.length > 6 && data[6].length > 0) {
+            systemCurrent = data[6][0];
+        }
+
+        // tampilkan pada dashboard
+        $("#systemTemp").html(systemTemp + " °C");
+        $("#systemCurrent").html(systemCurrent + " A");
+        
         if (plot1) plot1.destroy();
 
 		var t=[];
@@ -262,6 +277,11 @@ script.onload = function(){
 	<div data-role="header"><h1>DIY BMS Management Console</h1></div> \
 	<div role="main" data-role="ui-content"><div id="nodata">There is no data available, please configure modules.</div> \
 	<div id="chart1"></div> \
+    <div id="systemmonitor" style="text-align:center;margin-top:20px;"> \
+    <h3>System Monitoring</h3> \
+    Temperature : <span id="systemTemp">--</span> °C <br> \
+    Current : <span id="systemCurrent">--</span> A \
+    </div> \
 	<div id="buttons"><a href="#config" data-transition="pop" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Configure</a> <a href="#modules" data-transition="pop" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Modules</a>  \
 	<a id="AboveAvgBalance" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Above Avg Balance</a>  <a id="CancelAvgBalance" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Cancel Avg Balance</a> <a id="ResetESP" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Reset Controller</a> <a id="github" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" href="https://github.com/chickey/diyBMS">GitHub</a></div></div> \
 	</div> \
